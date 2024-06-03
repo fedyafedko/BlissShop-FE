@@ -11,10 +11,10 @@ const SearchBar = () => {
       sx={{ p: '2px 7px', display: 'flex', alignItems: 'center',height:50, width: 400, borderRadius: '50px', bgcolor: 'secondary.main'}}
     >
       <InputBase
-        sx={{ ml: 1, flex: 1, color: 'text.secondary'}}
+        sx={{ ml: 1, flex: 1, color: 'background.paper'}}
         placeholder="Search..."
       />
-      <IconButton type="button" sx={{ p: '10px', color: 'text.secondary'}} aria-label="search">
+      <IconButton type="button" sx={{ p: '10px', color: 'background.paper'}} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>

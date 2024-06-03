@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
-import StepperBar from "../../components/StepperBar/StepperBar";
+import SignInForm from "../../components/SignInForm/SignInForm";
 
-const SignUpPage = () => {
+const SignInPage = () => {
     return (
         <Box sx={{
             display: 'flex',
@@ -16,7 +16,7 @@ const SignUpPage = () => {
                 width: '100%',
                 height: '100vh',
             }}>
-                <StepperBar />
+            <SignInForm />
             </Box>
             <Box sx={{
                 display: 'flex',
@@ -59,4 +59,4 @@ const SignUpPage = () => {
     );
 };
 
-export default SignUpPage;
+export default SignInPage;

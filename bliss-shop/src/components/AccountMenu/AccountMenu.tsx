@@ -1,100 +1,144 @@
 import { PersonAdd, Settings, Logout } from "@mui/icons-material";
-import { Box, Typography, Tooltip, IconButton, Avatar, Menu, MenuItem, Divider, ListItemIcon } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import { Box, Typography, Tooltip, IconButton, Avatar, Menu, MenuItem, Divider, ListItemIcon, Button, List, ListItem, ListItemButton, ListItemText, SwipeableDrawer } from "@mui/material";
 import React from "react";
+import CategoryIcon from '@mui/icons-material/Category';
+import MenuIcon from '@mui/icons-material/Menu';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
 const AccountMenu = () => {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-    return (
-        <React.Fragment>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-            <MenuIcon sx={{ 
-                width: 40,
-                height: 40,
-                color: 'secondary.main',
-                }}/>
-          </IconButton>
-        </Tooltip>
+  const [state, setState] = React.useState({
+    right: false,
+  });
+
+  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    setState({ right: open });
+  };
+
+  const list = () => (
+    <Box
+      sx={{ width: 300 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '20px',
+        gap: '30px'
+      }}>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignSelf: 'center',
+          alignItems: 'center',
+          gap: '20px',
+          padding: '7px',
+          width: '260px',
+          backgroundColor: 'primary.light',
+          borderRadius: '30px',
+        }}>
+
+          <Avatar sx={{ width: 33, height: 33 }} />
+          <Typography variant="h6" color='primary.main'>John Doe</Typography>
+        </Box>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          
+        }}>
+          <Box>
+            <Button
+              variant="text"
+              sx={{
+                textTransform: 'none',
+                fontSize: '20px',
+                color: 'secondary.dark'
+              }}
+              startIcon={<CategoryIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+
+              Category
+            </Button>
+            <Button
+              variant="text"
+              sx={{
+                textTransform: 'none',
+                fontSize: '20px',
+                color: 'secondary.dark'
+              }}
+              startIcon={<RestaurantMenuIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+
+              My Orders
+            </Button>
+            <Button
+              variant="text"
+              sx={{
+                textTransform: 'none',
+                fontSize: '20px',
+                color: 'secondary.dark'
+              }}
+              startIcon={<SubscriptionsIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+
+              My Subscriptions
+            </Button>
+          </Box>
+          <Box sx={{
+            marginTop: '350px'
+          }}>
+            <Divider/>
+          <Button
+              variant="text"
+              sx={{
+                textTransform: 'none',
+                fontSize: '20px',
+                color: 'secondary.dark'
+              }}
+              startIcon={<Settings sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+
+              Settings
+            </Button>
+            <Button
+              variant="text"
+              sx={{
+                textTransform: 'none',
+                fontSize: '20px',
+                color: 'secondary.dark'
+              }}
+              startIcon={<Logout sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+
+              Sign Out
+            </Button>
+          </Box>
+        </Box>
       </Box>
-      <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            '&::before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+    </Box>
+  );
+
+  return (
+    <>
+      <IconButton aria-label="delete" size="large" onClick={toggleDrawer(true)}>
+        <MenuIcon fontSize="inherit" />
+      </IconButton>
+      <SwipeableDrawer
+        anchor="right"
+        open={state.right}
+        onClose={toggleDrawer(false)}
+        onOpen={toggleDrawer(true)}
       >
-        <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
-    </React.Fragment>
-    );
+        {list()}
+      </SwipeableDrawer>
+    </>
+  );
 };
 
 export default AccountMenu;

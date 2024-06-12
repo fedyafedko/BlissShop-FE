@@ -1,8 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
 import AccountMenu from "../AccountMenu/AccountMenu";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
+
     return (
         <Box
             component='header'
@@ -28,9 +31,12 @@ const Header = () => {
                     alignItems: 'center',
                     gap: '150px',
                 }}>
-                    <Box sx={{
+                    <Box
+                    onClick={() => navigate('/')}
+                    sx={{
                         display: 'flex',
                         gap: '10px',
+                        cursor: 'pointer',
                     }}>
                         <Typography variant="h4" sx={{
                             fontWeight: 'bold',

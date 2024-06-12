@@ -3,6 +3,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import ProductBox from "../../components/ProductCarousel/ProductCarousel";
 import home from '../../img/home.jpeg';
+import { useEffect } from "react";
 
 interface Category {
     id: string
@@ -11,6 +12,11 @@ interface Category {
 }
 
 const HomePage = () => {
+
+    useEffect(() => {
+
+    }, []);
+
     const categories: Category[] = [
         {
             id: "1",

@@ -5,11 +5,13 @@ import CategoryIcon from '@mui/icons-material/Category';
 import MenuIcon from '@mui/icons-material/Menu';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import { useNavigate } from "react-router-dom";
 
 const AccountMenu = () => {
   const [state, setState] = React.useState({
     right: false,
   });
+  const navigate = useNavigate();
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
@@ -37,7 +39,9 @@ const AccountMenu = () => {
         padding: '20px',
         gap: '30px'
       }}>
-        <Box sx={{
+        <Box
+        onClick={() => navigate('/profile/1')}
+        sx={{
           display: 'flex',
           flexDirection: 'row',
           alignSelf: 'center',
@@ -47,6 +51,7 @@ const AccountMenu = () => {
           width: '260px',
           backgroundColor: 'primary.light',
           borderRadius: '30px',
+          cursor: 'pointer'
         }}>
 
           <Avatar sx={{ width: 33, height: 33 }} />

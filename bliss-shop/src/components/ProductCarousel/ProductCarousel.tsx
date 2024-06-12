@@ -162,7 +162,7 @@ const ProductCarousel = () => {
                         <Box
                             onClick={()=> console.log(product.id)}
                             sx={{
-                                width: '210px',
+                                width: '200px',
                                 height: '300px',
                                 backgroundColor: 'primary.main',
                                 display: 'flex',

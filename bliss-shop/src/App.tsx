@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage/HomePage';
 import { useState } from 'react';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 const darkTheme = createTheme({
   palette: {
@@ -66,6 +67,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/profile/:id" element={<ProfilePage />} />
             </Routes>
           </BrowserRouter>
           <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>

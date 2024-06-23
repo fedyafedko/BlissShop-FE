@@ -10,6 +10,7 @@ import { useState } from 'react';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import { SnackbarProvider } from 'notistack';
 
 const darkTheme = createTheme({
   palette: {
@@ -57,24 +58,24 @@ function App() {
     setThemeMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
   };
   return (
+    <SnackbarProvider maxSnack={3}>
       <ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
-        <GoogleOAuthProvider
-          clientId=""
-        >
+        <GoogleOAuthProvider clientId="346589200417-h0pgk8i3lufp76lhsu45flthptkuhqec.apps.googleusercontent.com">
           <CssBaseline />
           <BrowserRouter>
             <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/sign-up" element={<SignUpPage />} />
+              <Route path="/sign-in" element={<SignInPage />} />
+              <Route path="/profile/:id" element={<ProfilePage />} />
             </Routes>
           </BrowserRouter>
           <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>
-          {themeMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
-        </IconButton>
+            {themeMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
+          </IconButton>
         </GoogleOAuthProvider>
       </ThemeProvider>
+    </SnackbarProvider>
   );
 }
 

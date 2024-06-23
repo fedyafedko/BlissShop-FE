@@ -3,13 +3,18 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { Button, Stack, StepConnector, StepIconProps, stepConnectorClasses, styled } from '@mui/material';
+import { Stack, StepConnector, StepIconProps, stepConnectorClasses, styled } from '@mui/material';
 import { Check } from '@mui/icons-material';
 import SignUpForm from '../SignUpForm/SignUpForm';
 import ConfirmEmailForm from '../ConfirmEmailForm/ConfirmEmailForm';
 import { useState } from 'react';
 import FinishAuth from '../FinishAuth/FinishAuth';
 import { useNavigate } from 'react-router-dom';
+import SignUpRequest from '../../api/models/request/Auth/SignUpRequest';
+import SignUpGoogleRequest from '../../api/models/request/Auth/SignUpGoogleRequest';
+import Auth from '../../api/Auth';
+import ConfirmEmailRequest from '../../api/models/request/Auth/ConfirmEmailRequest';
+import useNotification from '../../hooks/useNotification';
 
 const QontoConnector = styled(StepConnector)(({ theme }) => ({
     [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -28,7 +33,7 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
         },
     },
     [`& .${stepConnectorClasses.line}`]: {
-        borderColor:'#eaeaf0',
+        borderColor: '#eaeaf0',
         borderTopWidth: 3,
         borderRadius: 1,
     },
@@ -36,7 +41,7 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
 
 const QontoStepIconRoot = styled('div')<{ ownerState: { active?: boolean } }>(
     ({ theme, ownerState }) => ({
-        color:'#eaeaf0',
+        color: '#eaeaf0',
         display: 'flex',
         height: 22,
         alignItems: 'center',
@@ -71,19 +76,62 @@ function QontoStepIcon(props: StepIconProps) {
     );
 }
 
-
-
 const steps = ['Sign Up', 'Confirmed Email', 'Finished'];
 
 const StepperBar = () => {
-    const [activeStep, setActiveStep] = useState(0);
+    const initialStep = parseInt(localStorage.getItem('currentStep') || '0');
+    const [activeStep, setActiveStep] = useState(initialStep);
+    const { notifyError, notifySuccess,  Notification } = useNotification();
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        localStorage.setItem('currentStep', activeStep.toString());
+      }, [activeStep]);
 
     const handleNext = () => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
+    const handleSignUp = async (data: SignUpRequest) => {
+        const response = await Auth.signUp(data);
+        localStorage.setItem('userId', response.data?.userId ? response.data.userId : '');
+        if (response.statusCode === 200) {
+            handleNext();
+        }
+        else {
+            notifyError(response.error);
+        }
+    };
+    const handleSignUpGoogle = async (data: SignUpGoogleRequest) => {
+        const response = await Auth.signUpGoogle(data);
+        if (response === undefined) {
+            setActiveStep((prevActiveStep) => prevActiveStep + 2);
+        }
+        else {
+            notifyError(response);
+        }
+    };
+    const handleConfirmEmail = async (code: number) => {
+        const data: ConfirmEmailRequest = { code: code, userId: localStorage.getItem('userId') || ' ' };
+        const response = await Auth.confirmEmail(data);
+        if (response === undefined) {
+            handleNext();
+        }
+        else {
+            notifyError(response);
+        }
+    };
+    const handleResetEmailCode = async () => {
+        const response = await Auth.resendEmailConfirmationCode(localStorage.getItem('userId') || '');
+        if (response === undefined) {
+            notifySuccess('Email code has been sent to your email');
+        }
+        else {
+            notifyError(response);
+        }
+    };
     const handleComplete = () => {
+        localStorage.removeItem('currentStep');
         navigate('/');
     };
 
@@ -98,11 +146,11 @@ const StepperBar = () => {
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 2 }}>
                 {activeStep === 0 ? (
-                    <SignUpForm onComplete={handleNext} />
+                    <SignUpForm onSignUpComplete={handleSignUp} onSignUpGoogleComplete={handleSignUpGoogle} />
                 ) : activeStep === 1 ? (
-                    <ConfirmEmailForm onComplete={handleNext} />
+                    <ConfirmEmailForm confirmEmail={handleConfirmEmail} resendEmailCode={handleResetEmailCode}/>
                 ) : (
-                    <FinishAuth onComplete={handleComplete}/>
+                    <FinishAuth onComplete={handleComplete} />
                 )}
             </Box>
             <Stack sx={{ width: '100%' }} spacing={4}>

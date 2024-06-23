@@ -1,20 +1,22 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import confirmEmailValidation from "../../validation/ConfirmEmailFormValidation";
+import LoadingButton from "@mui/lab/LoadingButton";
+import React from "react";
 
 interface ConfirmEmailProps {
-    onComplete: () => void;
+    confirmEmail: (code: number) => void;
+    resendEmailCode: () => void;
 };
 
 export interface ConfirmEmail {
     code: number;
 }
 
-
-const ConfirmEmailForm: React.FC<ConfirmEmailProps> = ({ onComplete }) => {
-    const [confirmEmailComplete, setConfirmEmailComplete] = useState(false);
+const ConfirmEmailForm: React.FC<ConfirmEmailProps> = ({ confirmEmail, resendEmailCode }) => {
+    const [loading, setLoading] = React.useState(false);
     const {
         register,
         handleSubmit,
@@ -24,17 +26,13 @@ const ConfirmEmailForm: React.FC<ConfirmEmailProps> = ({ onComplete }) => {
         reValidateMode: 'onChange',
         mode: 'onTouched'
     });
-    
-    const handleConfirmEmail = () => {
-        setConfirmEmailComplete(true);
+
+    const handleConfirmEmail = async (form: ConfirmEmail) => {
+        setLoading(true);
+        await confirmEmail(form.code);
+        setLoading(false);
     };
 
-    useEffect(() => {
-        if (confirmEmailComplete) {
-            console.log('Sign Up Complete');
-            onComplete();
-        }
-    }, [confirmEmailComplete, onComplete]);
     return (
         <Box sx={{
             display: 'flex',
@@ -44,8 +42,8 @@ const ConfirmEmailForm: React.FC<ConfirmEmailProps> = ({ onComplete }) => {
             width: '500px',
         }}>
             <Box>
-            <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Confirmed Your Email</Typography>
-            <Typography variant="body1">Thank you for registering with BlissShop! To complete the registration process and activate your account, please verify your email address.</Typography>
+                <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Confirmed Your Email</Typography>
+                <Typography variant="body1">Thank you for registering with BlissShop! To complete the registration process and activate your account, please verify your email address.</Typography>
             </Box>
             <Box sx={{
                 display: 'flex',
@@ -54,29 +52,49 @@ const ConfirmEmailForm: React.FC<ConfirmEmailProps> = ({ onComplete }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
-            <TextField
-                id="code"
-                label="Code"
-                {...register('code')}
-                error={!!errors.code}
-                helperText={errors.code?.message || ' '}
-                variant="outlined"
-                color="secondary"
-                sx={{ width: '100%' }} />
-            <Button 
-            variant="contained"
-            color="secondary"
-            onClick={handleSubmit(handleConfirmEmail)}
-            sx={{
-                width: '100%',
-                height: '50px',
-                color: 'primary.dark',
-                fontWeight: 'bold',
-                textTransform: 'none',
-                fontSize: '18px',
-            }}>
-                Verify
-            </Button>
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%'
+                }}>
+                    <TextField
+                        id="code"
+                        label="Code"
+                        {...register('code')}
+                        error={!!errors.code}
+                        helperText={errors.code?.message || ' '}
+                        variant="outlined"
+                        color="secondary"
+                        sx={{ width: '100%' }} />
+                    <Link
+                        onClick={resendEmailCode}
+                        color="secondary"
+                        sx={{
+                            display: 'flex',
+                            alignSelf: 'flex-end',
+                            textTransform: 'none',
+                            textDecoration: 'none',
+                            "&:hover": {
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                            },
+                        }}>Resend code</Link>
+                </Box>
+                <LoadingButton
+                    variant="contained"
+                    loading={loading}
+                    color="secondary"
+                    onClick={handleSubmit(handleConfirmEmail)}
+                    sx={{
+                        width: '100%',
+                        height: '50px',
+                        color: 'primary.dark',
+                        fontWeight: 'bold',
+                        textTransform: 'none',
+                        fontSize: '18px',
+                    }}>
+                    Verify
+                </LoadingButton>
             </Box>
         </Box>
     );

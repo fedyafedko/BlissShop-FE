@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.4.2",
     "@mui/icons-material": "^5.15.19",
+    "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.19",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@react-oauth/google": "^0.12.1",
@@ -55,5 +56,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.8"
   }
 }

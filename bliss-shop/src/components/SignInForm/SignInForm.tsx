@@ -1,13 +1,18 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Button, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import { useState } from 'react';
+import { Button, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import GoogleIcon from '@mui/icons-material/Google';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from "react-hook-form"
 import signInFormValidation from '../../validation/SignInFormValidation';
 import ForgotPasswordWindow from '../ForgotPasswordWindow/ForgotPasswordWindow';
+import Auth from '../../api/Auth';
+import SignInRequest from '../../api/models/request/Auth/SignInRequest';
+import { useNavigate } from 'react-router-dom';
+import useNotification from '../../hooks/useNotification';
+import { useGoogleLogin } from '@react-oauth/google';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export interface SignIn {
     email: string;
@@ -16,6 +21,9 @@ export interface SignIn {
 
 const SignInForm = () => {
     const [showPassword, setShowPassword] = React.useState(false);
+    const navigate = useNavigate();
+    const [loading, setLoading] = React.useState(false);
+    const { notifyError, Notification } = useNotification();
     const {
         register,
         handleSubmit,
@@ -31,9 +39,30 @@ const SignInForm = () => {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
-    const handleSignUp = async (form: SignIn) => {
-        console.log(`Sign In: ${form}`);
+    const handleSignIn = async (form: SignIn) => {
+        setLoading(true);
+        const response = await Auth.signIn(form as SignInRequest);
+        setLoading(false);
+
+        if (response.success) {
+            navigate('/');
+        } else {
+            notifyError( response.error ?? 'An error occurred')
+        }
     };
+
+    const handleGoogleSignIn = useGoogleLogin({
+        onSuccess: async (codeResp: any) => {
+            const response = await Auth.signInGoogle(codeResp.code);
+            if (response === undefined) {
+                navigate('/');
+            }
+            else {
+                notifyError(response);
+            }
+        },
+        flow: 'auth-code',
+    });
 
     return (
         <Box sx={{
@@ -92,10 +121,11 @@ const SignInForm = () => {
                         />
                         <ForgotPasswordWindow />
                 </FormControl>
-                <Button
+                <LoadingButton
                     variant="contained"
                     color="secondary"
-                    onClick={handleSubmit(handleSignUp)}
+                    loading={loading}
+                    onClick={handleSubmit(handleSignIn)}
                     sx={{
                         width: '100%',
                         height: '50px',
@@ -105,11 +135,12 @@ const SignInForm = () => {
                         fontSize: '18px',
                     }}>
                     Sign In
-                </Button>
+                </LoadingButton>
                 <Button
                     startIcon={<GoogleIcon sx={{ width: '30px', height: '30px' }} />}
                     variant="contained"
                     color="secondary"
+                    onClick={handleGoogleSignIn}
                     sx={{
                         width: '100%',
                         height: '50px',

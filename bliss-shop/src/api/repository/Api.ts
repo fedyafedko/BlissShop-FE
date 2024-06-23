@@ -1,28 +1,49 @@
 import axios from "axios";
 import { ApiRequestBase } from "../models/request/ApiRequestBase";
 import ApiResponse from "../models/response/ApiResponse";
+import AuthSuccessResponse from "../models/response/AuthSuccessResponse";
+import RefreshTokenRequest from "../models/request/Auth/RefreshTokenRequest";
+import { useNavigate } from "react-router-dom";
 
-const API_URL: string | undefined = process.env.REACT_APP_API_URL;
+const API_URL: string | undefined = 'https://localhost:7299/api';
 
-const axiosInstance = axios.create();
+const axiosInstance = axios.create();;
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    console.log(error.response.status);
-    if (error.response.status === 401) {
-      try {
-        
-        console.log(error.response.status);
-        
-      } catch (refreshError) {
-        console.log('Silent refresh failed');
-      }
+    (response) => {
+        return response;
+    },
+    async (error) => {
+        if (error.response.status === 401) {
+            try {
+                const navigate = useNavigate();
+                const request = {
+                    accessToken: localStorage.getItem('accessToken') ?? '',
+                    refreshToken: localStorage.getItem('refreshToken') ?? ''
+                };
+                const response = await Api.post<RefreshTokenRequest, AuthSuccessResponse>('/auth/refresh-token', request as RefreshTokenRequest);
+
+                if (response.statusCode === 400) {
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    navigate('/sign-in');
+                }
+
+                if (response.success) {
+                    const tokens = response.data as AuthSuccessResponse;
+                    localStorage.setItem('accessToken', tokens.accessToken);
+                    localStorage.setItem('refreshToken', tokens.refreshToken);
+
+                    return undefined;
+                }
+
+                return response.error;
+            } catch (refreshError) {
+                console.log('Silent refresh failed');
+            }
+        }
+        return Promise.reject(error);
     }
-    return Promise.reject(error);
-  }
 );
 
 const Api = {
@@ -46,6 +67,7 @@ const Api = {
         headers?: { [key: string]: string }
     ): Promise<ApiResponse<TResponse>> => {
         try {
+            console.log(API_URL);
             const response = await axiosInstance.post<TResponse>(API_URL + url, data, {
                 headers: {
                     'Authorization': 'Bearer ' + localStorage.getItem('accessToken'),

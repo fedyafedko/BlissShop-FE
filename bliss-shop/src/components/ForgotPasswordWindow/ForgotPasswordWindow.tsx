@@ -2,8 +2,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Backdrop, Box, Button, Fade, Modal, TextField, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import React from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import ForgotPasswordFormValidation from "../../validation/ForgotPasswordFormValidation";
+import Auth from "../../api/Auth";
+import useNotification from "../../hooks/useNotification";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 export interface ForgotPasswordForm {
     email: string;
@@ -11,6 +14,8 @@ export interface ForgotPasswordForm {
 
 const ForgotPasswordWindow = () => {
     const [open, setOpen] = React.useState(false);
+    const { notifyError, notifySuccess,  Notification } = useNotification();
+    const [loading, setLoading] = React.useState(false);
     const {
         register,
         handleSubmit,
@@ -24,7 +29,16 @@ const ForgotPasswordWindow = () => {
     const handleClose = () => setOpen(false);
 
     const handleForgotPassword = async (data: ForgotPasswordForm) => {
-        console.log(`Forgot Password: ${data}`);
+        setLoading(true);
+        const response = await Auth.forgotPassword(data.email);
+        setLoading(false);
+
+        if (response === undefined) {
+            handleClose();
+            notifySuccess('Password reset email has been sent to your email');
+        }else {
+            notifyError(response);
+        }
     };
 
     return (
@@ -89,9 +103,10 @@ const ForgotPasswordWindow = () => {
                                 sx={{
                                     width: '300px',
                                 }} />
-                            <Button 
+                            <LoadingButton 
                             variant="contained"
                             color="secondary"
+                            loading={loading}
                             onClick={handleSubmit(handleForgotPassword)}
                             sx={{
                                 color: 'primary.dark',
@@ -99,7 +114,7 @@ const ForgotPasswordWindow = () => {
                                 textTransform: 'none',
                             }}>
                                 Reset Password
-                            </Button>
+                            </LoadingButton>
                         </Box>
                     </Box>
                 </Fade>

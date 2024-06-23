@@ -1,90 +1,132 @@
 import { Avatar, Box, Button, Divider, Typography } from "@mui/material";
-
+import EmailIcon from '@mui/icons-material/Email';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import BusinessIcon from '@mui/icons-material/Business';
 const ProfileTab = () => {
   return (
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: 'primary.main',
-        width: '700px',
-        height: '450px',
-        margin: '50px 230px',
+        width: '800px',
+        height: '500px',
+        margin: '10px 230px',
         boxShadow: '2px 4px 4px rgba(0, 0, 0, 0.2)',
-        borderRadius: '24px',
       }}
     >
-      <Avatar
-        sx={{
-          width: '110px',
-          height: '110px',
-          backgroundColor: 'secondary.main',
-          fontSize: '2rem',
-          top: 0,
-          transform: 'translateY(-50%)',
-        }}
-      >
-        A
-      </Avatar>
       <Box sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '10px',
-        marginTop: '-45px',
+        justifyContent: 'center',
+        width: '270px',
+        height: '100%',
+        background: 'linear-gradient(to left,#6BC791, #276841)',
+        gap: '80px',
       }}>
-        <Typography variant="h5" sx={{ color: 'secondary.dark', fontWeight: 'bold' }}>John Due</Typography>
+        <Avatar src="" sx={{ width: '120px', height: '120px' }} />
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
-          padding: '20px',
-          width: '700px',
-          gap: '10px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px'
+        }}>
+          <Typography variant="h4" sx={{ fontWeight: 'bold' }}>John Due</Typography>
+          <Typography variant="h6">vladfedko35@gmail.com</Typography>
+          <Button variant="contained" sx={{
+            backgroundColor: 'secondary.main',
+            color: 'primary.dark',
+            width: '110px',
+            borderRadius: '0px',
+            ":hover": {
+              backgroundColor: 'secondary.main'
+            }
+          }}>Edit</Button>
+        </Box>
+      </Box>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '530px',
+        gap: '50px'
+      }}>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '15px',
+          gap: '30px'
         }}>
           <Box sx={{
             display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '50px',
+            flexDirection: 'column'
           }}>
-            <Typography variant="h6" sx={{ color: 'secondary.dark', fontWeight: 'bold' }}>Email:</Typography>
-            <Typography variant="h6" sx={{ color: 'secondary.dark' }}>vladfedko342@gmail.com</Typography>
+            <Typography variant="h6">Information</Typography>
+            <Divider />
           </Box>
-          <Divider sx={{ width: '100%', margin: '10px 0' }} />
           <Box sx={{
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: '50px',
+            justifyContent: 'center',
+            gap: '150px'
           }}>
-            <Typography variant="h6" sx={{ color: 'secondary.dark', fontWeight: 'bold' }}>Phone:</Typography>
-            <Typography variant="h6" sx={{ color: 'secondary.dark' }}>+380967332123</Typography>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px'
+            }}>
+              <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 'bold' }}><EmailIcon />Email</Typography>
+              <Typography sx={{ fontSize: '17px' }}>vladfedko32@gmail.com</Typography>
+            </Box>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px'
+            }}>
+              <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 'bold' }}><PhoneAndroidIcon />Phone</Typography>
+              <Typography sx={{ fontSize: '17px' }}>+380932123894</Typography>
+            </Box>
           </Box>
-          <Divider sx={{ width: '100%', margin: '10px 0' }} />
-          <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: '50px',
-          }}>
-            <Typography variant="h6" sx={{ color: 'secondary.dark', fontWeight: 'bold' }}>Address:</Typography>
-            <Typography variant="h6" sx={{ color: 'secondary.dark' }}>Konoton 3</Typography>
-          </Box>
-          <Divider sx={{ width: '100%', margin: '10px 0' }} />
         </Box>
-        <Button sx={{
-          backgroundColor: 'secondary.main',
-          width: '200px',
-          height: '40px',
-          textTransform: 'none',
-          fontSize: '1.2rem',
-          ":hover": {
-            backgroundColor: 'secondary.main',
-          }
-        }}>Edit</Button>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '15px',
+          gap: '30px'
+        }}>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <Typography variant="h6">Information</Typography>
+            <Divider />
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            gap: '150px'
+          }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px'
+            }}>
+              <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 'bold' }}><EmailIcon />Email</Typography>
+              <Typography sx={{ fontSize: '17px' }}>vladfedko32@gmail.com</Typography>
+            </Box>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px'
+            }}>
+              <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 'bold' }}><PhoneAndroidIcon />Phone</Typography>
+              <Typography sx={{ fontSize: '17px' }}>+380932123894</Typography>
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

@@ -28,7 +28,7 @@ const AccountMenu = () => {
 
   const list = () => (
     <Box
-      sx={{ width: 300 }}
+      sx={{ width: 300, height: '100%', }}
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
@@ -36,94 +36,89 @@ const AccountMenu = () => {
       <Box sx={{
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         padding: '20px',
         gap: '30px'
       }}>
         <Box
-        onClick={() => navigate('/profile/1')}
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignSelf: 'center',
-          alignItems: 'center',
-          gap: '20px',
-          padding: '7px',
-          width: '260px',
-          backgroundColor: 'primary.light',
-          borderRadius: '30px',
-          cursor: 'pointer'
-        }}>
-
+          onClick={() => navigate('/profile/1')}
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'center',
+            gap: '20px',
+            padding: '7px',
+            width: '260px',
+            backgroundColor: 'primary.light',
+            borderRadius: '30px',
+            cursor: 'pointer'
+          }}>
           <Avatar sx={{ width: 33, height: 33 }} />
           <Typography variant="h6" color='primary.main'>John Doe</Typography>
         </Box>
         <Box sx={{
           display: 'flex',
           flexDirection: 'column',
-          
+          alignItems: 'flex-start',
         }}>
-          <Box>
-            <Button
-              variant="text"
-              sx={{
-                textTransform: 'none',
-                fontSize: '20px',
-                color: 'secondary.dark'
-              }}
-              startIcon={<CategoryIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
-
-              Category
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                textTransform: 'none',
-                fontSize: '20px',
-                color: 'secondary.dark'
-              }}
-              startIcon={<RestaurantMenuIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
-
-              My Orders
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                textTransform: 'none',
-                fontSize: '20px',
-                color: 'secondary.dark'
-              }}
-              startIcon={<SubscriptionsIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
-
-              My Subscriptions
-            </Button>
-          </Box>
-          <Box sx={{
-            marginTop: '350px'
-          }}>
-            <Divider/>
           <Button
-              variant="text"
-              sx={{
-                textTransform: 'none',
-                fontSize: '20px',
-                color: 'secondary.dark'
-              }}
-              startIcon={<Settings sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            variant="text"
+            sx={{
+              textTransform: 'none',
+              fontSize: '20px',
+              color: 'secondary.dark'
+            }}
+            startIcon={<CategoryIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            Category
+          </Button>
+          <Button
+            variant="text"
+            sx={{
+              textTransform: 'none',
+              fontSize: '20px',
+              color: 'secondary.dark'
+            }}
+            startIcon={<RestaurantMenuIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            My Orders
+          </Button>
+          <Button
+            variant="text"
+            sx={{
+              textTransform: 'none',
+              fontSize: '20px',
+              color: 'secondary.dark'
+            }}
+            startIcon={<SubscriptionsIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            My Subscriptions
+          </Button>
+        </Box>
+        <Box sx={{
+          marginTop: 'auto',
+        }}>
+          <Divider />
+          <Button
+            variant="text"
+            sx={{
+              textTransform: 'none',
+              fontSize: '20px',
+              color: 'secondary.dark'
+            }}
+            startIcon={<Settings sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
 
-              Settings
-            </Button>
-            <Button
-              variant="text"
-              sx={{
-                textTransform: 'none',
-                fontSize: '20px',
-                color: 'secondary.dark'
-              }}
-              startIcon={<Logout sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            Settings
+          </Button>
+          <Button
+            variant="text"
+            sx={{
+              textTransform: 'none',
+              fontSize: '20px',
+              color: 'secondary.dark'
+            }}
+            startIcon={<Logout sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
 
-              Sign Out
-            </Button>
-          </Box>
+            Sign Out
+          </Button>
         </Box>
       </Box>
     </Box>

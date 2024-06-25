@@ -12,7 +12,7 @@ const ProfileTab = () => {
         backgroundColor: 'primary.main',
         width: '800px',
         height: '500px',
-        margin: '10px 230px',
+        margin: '25px 230px',
         boxShadow: '2px 4px 4px rgba(0, 0, 0, 0.2)',
       }}
     >
@@ -36,15 +36,6 @@ const ProfileTab = () => {
         }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold' }}>John Due</Typography>
           <Typography variant="h6">vladfedko35@gmail.com</Typography>
-          <Button variant="contained" sx={{
-            backgroundColor: 'secondary.main',
-            color: 'primary.dark',
-            width: '110px',
-            borderRadius: '0px',
-            ":hover": {
-              backgroundColor: 'secondary.main'
-            }
-          }}>Edit</Button>
         </Box>
       </Box>
       <Box sx={{

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Button, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField, Typography } from '@mui/material';
+import { Button, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -70,12 +70,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSignUpComplete, onSignUpGoogl
         }}>
             <Box>
                 <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Welcome</Typography>
-                <Typography variant="body1">Sign up to start shopping</Typography>
+                <Typography variant="body1">
+                Already have an account? <Link sx={{ color: 'secondary.dark'}} href="/sign-in">Log in</Link>
+                </Typography>
             </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
+                gap: '10px',
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
@@ -145,9 +147,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onSignUpComplete, onSignUpGoogl
                 <Button
                     startIcon={<GoogleIcon sx={{ width: '30px', height: '30px' }} />}
                     variant="contained"
-                    color="secondary"
+                    color='secondary'
                     onClick={handleGoogleSignUp}
                     sx={{
+                        backgroundColor: 'secondary.dark',
                         width: '100%',
                         height: '50px',
                         color: 'primary.dark',

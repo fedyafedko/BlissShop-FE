@@ -11,6 +11,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { SnackbarProvider } from 'notistack';
+import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -23,7 +24,7 @@ const darkTheme = createTheme({
     secondary: {
       main: '#F3F9E3',
       dark: '#F6F7F8',
-      contrastText: '#fff',
+      light: '#419D78',
     },
     background: {
       default: '#63595C',
@@ -43,6 +44,7 @@ const lightTheme = createTheme({
     secondary: {
       main: '#276841',
       dark: '#090A0B',
+      light: '#D8DAD3',
     },
     background: {
       default: '#F5F4F5',
@@ -68,6 +70,7 @@ function App() {
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/sign-in" element={<SignInPage />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/reset-password/:email/:token" element={<ResetPasswordPage/>} />
             </Routes>
           </BrowserRouter>
           <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>

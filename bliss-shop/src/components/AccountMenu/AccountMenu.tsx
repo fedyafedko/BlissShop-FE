@@ -115,8 +115,13 @@ const AccountMenu = () => {
               fontSize: '20px',
               color: 'secondary.dark'
             }}
+            onClick={() => 
+              {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                navigate('/');
+              }}
             startIcon={<Logout sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
-
             Sign Out
           </Button>
         </Box>
@@ -127,7 +132,7 @@ const AccountMenu = () => {
   return (
     <>
       <IconButton aria-label="delete" size="large" onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize="inherit" />
+        <MenuIcon fontSize="inherit" sx={{ width: '35px', height: '35px' }}/>
       </IconButton>
       <SwipeableDrawer
         anchor="right"

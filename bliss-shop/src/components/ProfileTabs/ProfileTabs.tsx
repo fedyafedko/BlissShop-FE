@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ProfileTab from './ProfileTab/ProfileTab';
+import SettingsTab from './SettingsTab/SettingsTab';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -47,7 +48,7 @@ const ProfileTabs = () => {
 
   return (
     <Box
-      sx={{ flexGrow: 1, display: 'flex', height: 562 }}
+      sx={{ flexGrow: 1, display: 'flex', width: 1000}}
     >
       <Tabs
         orientation="vertical"
@@ -57,7 +58,7 @@ const ProfileTabs = () => {
         indicatorColor="secondary"
         aria-label="Vertical tabs example"
         sx={{
-            width: 200,
+            width: 250,
             borderRight: 1,
             borderColor: 'divider',
           }}
@@ -68,27 +69,26 @@ const ProfileTabs = () => {
         <Tab label="My Subscriptions" {...a11yProps(3)} sx={{ textTransform: 'none', fontSize: '20px', alignItems: 'flex-start'}}/>
         <Tab label="My Shops" {...a11yProps(4)} sx={{ textTransform: 'none', fontSize: '20px', alignItems: 'flex-start'}}/>
       </Tabs>
-      <TabPanel value={value} index={0}>
+      <Box sx={{
+        width: '100%',
+        height: '100%',
+      }}>
+        <TabPanel value={value} index={0}>
           <ProfileTab />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
-      </TabPanel>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <SettingsTab />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Item Three
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          Item Four
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          Item Five
+        </TabPanel>
+      </Box>
     </Box>
   );
 }

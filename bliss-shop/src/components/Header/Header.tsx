@@ -2,8 +2,11 @@ import { Box, Typography } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
 import AccountMenu from "../AccountMenu/AccountMenu";
 import { useNavigate } from "react-router-dom";
+import { access } from "fs";
+import ProductCart from "../ProductCart/ProductCart";
 
 const Header = () => {
+    const accessToken = localStorage.getItem('accessToken');
     const navigate = useNavigate();
 
     return (
@@ -32,12 +35,12 @@ const Header = () => {
                     gap: '150px',
                 }}>
                     <Box
-                    onClick={() => navigate('/')}
-                    sx={{
-                        display: 'flex',
-                        gap: '10px',
-                        cursor: 'pointer',
-                    }}>
+                        onClick={() => navigate('/')}
+                        sx={{
+                            display: 'flex',
+                            gap: '10px',
+                            cursor: 'pointer',
+                        }}>
                         <Typography variant="h4" sx={{
                             fontWeight: 'bold',
                             padding: '0 10px',
@@ -56,7 +59,27 @@ const Header = () => {
                     </Box>
                     <SearchBar />
                 </Box>
-                <AccountMenu />
+                {accessToken
+                    ?
+                    <Box sx={{
+                        display: 'flex',
+                        gap: '110px',
+                    }}>
+                        <ProductCart />
+                        <AccountMenu />
+                    </Box>
+                    :
+                    <Typography
+                        onClick={() => navigate('/sign-in')}
+                        variant="h6"
+                        sx={{
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            color: 'primary.main',
+                            backgroundColor: 'secondary.main',
+                            padding: '5px 10px',
+                        }}>Sign In</Typography>
+                }
             </Box>
         </Box>
     );

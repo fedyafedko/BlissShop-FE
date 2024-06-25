@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { Button, FormControl, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Button, FormControl, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 import GoogleIcon from '@mui/icons-material/Google';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -47,7 +47,7 @@ const SignInForm = () => {
         if (response.success) {
             navigate('/');
         } else {
-            notifyError( response.error ?? 'An error occurred')
+            notifyError(response.error ?? 'An error occurred')
         }
     };
 
@@ -74,12 +74,14 @@ const SignInForm = () => {
         }}>
             <Box>
                 <Typography variant="h4" sx={{ fontWeight: 'bold' }}>Welcome back</Typography>
-                <Typography variant="body1">Sign in to start shopping</Typography>
+                <Typography variant="body1">
+                    Don't have an account? <Link sx={{ color: 'secondary.dark' }} href="/sign-up">Register</Link>
+                </Typography>
             </Box>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
+                gap: '10px',
                 justifyContent: 'center',
                 alignItems: 'center',
             }}>
@@ -96,30 +98,30 @@ const SignInForm = () => {
                     sx={{ width: '100%' }}
                     variant="outlined"
                     color="secondary">
-                        <TextField
-                            id="password"
-                            label="Password"
-                            variant="outlined"
-                            color="secondary"
-                            type={showPassword ? 'text' : 'password'}
-                            {...register('password')}
-                            error={!!errors.password}
-                            helperText={errors.password?.message || ' '}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                        >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
-                        <ForgotPasswordWindow />
+                    <TextField
+                        id="password"
+                        label="Password"
+                        variant="outlined"
+                        color="secondary"
+                        type={showPassword ? 'text' : 'password'}
+                        {...register('password')}
+                        error={!!errors.password}
+                        helperText={errors.password?.message || ' '}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                    />
+                    <ForgotPasswordWindow />
                 </FormControl>
                 <LoadingButton
                     variant="contained"
@@ -142,6 +144,7 @@ const SignInForm = () => {
                     color="secondary"
                     onClick={handleGoogleSignIn}
                     sx={{
+                        backgroundColor: 'secondary.dark',
                         width: '100%',
                         height: '50px',
                         color: 'primary.dark',

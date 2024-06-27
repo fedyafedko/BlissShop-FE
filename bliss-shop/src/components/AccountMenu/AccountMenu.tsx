@@ -55,7 +55,11 @@ const AccountMenu = () => {
             cursor: 'pointer'
           }}>
           <Avatar sx={{ width: 33, height: 33 }} />
-          <Typography variant="h6" color='primary.main'>John Doe</Typography>
+          <Typography variant="h6" color='primary.main' sx={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}>John Doe</Typography>
         </Box>
         <Box sx={{
           display: 'flex',
@@ -115,12 +119,11 @@ const AccountMenu = () => {
               fontSize: '20px',
               color: 'secondary.dark'
             }}
-            onClick={() => 
-              {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                navigate('/');
-              }}
+            onClick={() => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              navigate('/');
+            }}
             startIcon={<Logout sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
             Sign Out
           </Button>
@@ -132,7 +135,7 @@ const AccountMenu = () => {
   return (
     <>
       <IconButton aria-label="delete" size="large" onClick={toggleDrawer(true)}>
-        <MenuIcon fontSize="inherit" sx={{ width: '35px', height: '35px' }}/>
+        <MenuIcon fontSize="inherit" sx={{ width: '35px', height: '35px' }} />
       </IconButton>
       <SwipeableDrawer
         anchor="right"

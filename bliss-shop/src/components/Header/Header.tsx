@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
 import AccountMenu from "../AccountMenu/AccountMenu";
 import { useNavigate } from "react-router-dom";
-import { access } from "fs";
 import ProductCart from "../ProductCart/ProductCart";
 
 const Header = () => {

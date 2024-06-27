@@ -4,6 +4,8 @@ import Footer from "../../components/Footer/Footer";
 import ProductBox from "../../components/ProductCarousel/ProductCarousel";
 import home from '../../img/home.jpeg';
 import { useEffect } from "react";
+import CreateProductRequest from "../../api/models/request/Product/CreateProductRequest";
+import Product from "../../api/Product";
 
 interface Category {
     id: string
@@ -12,11 +14,6 @@ interface Category {
 }
 
 const HomePage = () => {
-
-    useEffect(() => {
-
-    }, []);
-
     const categories: Category[] = [
         {
             id: "1",
@@ -83,53 +80,53 @@ const HomePage = () => {
                         fontWeight: 'bold',
                         fontSize: '30px',
                     }}>Featured Products</Typography>
-                <ProductBox/>
+                    <ProductBox />
                 </Box>
                 <Box
-                sx={{
+                    sx={{
                         display: 'flex',
                         width: '80%',
                         flexDirection: 'column',
                         gap: '20px',
-                }}>
-                <Typography sx={{
-                    marginLeft: '50px',
-                    fontWeight: 'bold',
-                    fontSize: '30px',
-                }}>Categories</Typography>
-                <Grid
-                    container
-                    spacing={2}
-                    rowSpacing={4}
-                    columns={{ xs: 4, sm: 8, md: 4 }}
-                    sx={{
-                        display: 'flex',
-                        marginBottom: '20px',
                     }}>
-                    {categories.map((category) => (
-                    <Grid item xs={2} sm={4} md={1}>
-                        <Box 
-                        onClick={() => console.log(category.id)}
+                    <Typography sx={{
+                        marginLeft: '50px',
+                        fontWeight: 'bold',
+                        fontSize: '30px',
+                    }}>Categories</Typography>
+                    <Grid
+                        container
+                        spacing={2}
+                        rowSpacing={4}
+                        columns={{ xs: 4, sm: 8, md: 4 }}
                         sx={{
                             display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            cursor: 'pointer',
+                            marginBottom: '20px',
                         }}>
-                            <Box sx={{
-                                width: '155px',
-                                height: '155px',
-                                backgroundImage: `url(${category.image})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                borderRadius: '100%'
-                            }} />
-                            <Typography variant="h6">{category.name}</Typography>
-                        </Box>
+                        {categories.map((category) => (
+                            <Grid item xs={2} sm={4} md={1}>
+                                <Box
+                                    onClick={() => console.log(category.id)}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        cursor: 'pointer',
+                                    }}>
+                                    <Box sx={{
+                                        width: '155px',
+                                        height: '155px',
+                                        backgroundImage: `url(${category.image})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        borderRadius: '100%'
+                                    }} />
+                                    <Typography variant="h6">{category.name}</Typography>
+                                </Box>
+                            </Grid>
+                        ))}
                     </Grid>
-                    ))}
-                </Grid>
                 </Box>
             </Box>
             <Footer />

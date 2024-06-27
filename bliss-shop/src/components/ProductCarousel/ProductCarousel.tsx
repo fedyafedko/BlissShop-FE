@@ -1,132 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import Product from '../../api/Product';
+import ProductResponse from '../../api/models/response/ProductResponse';
+import productImage from '../../img/productImage.png';
+import SearchProductRequest from '../../api/models/request/Product/SearchProductRequest';
 
 const ProductCarousel = () => {
-    const products = [
-        {
-            id: '1',
-            image: 'https://assets.isu.pub/document-structure/230616123724-037fed6e5a94c4e43853143450546aa7/v1/b67a018a8919ba09c9dd845b7fdf15ea.jpeg',
-            name: 'Product 1',
-            price: '$10',
-        },
-        {
-            id: '2',
-            image: 'product2.jpg',
-            name: 'Product 2',
-            price: '$20',
-        },
-        {
-            id: '3',
-            image: 'product3.jpg',
-            name: 'Product 3',
-            price: '$30',
-        },
-        {
-            id: '4',
-            image: 'product4.jpg',
-            name: 'Product 4',
-            price: '$40',
-        },
-        {
-            id: '5',
-            image: 'product5.jpg',
-            name: 'Product 5',
-            price: '$50',
-        },
-        {
-            id: '10',
-            image: 'https://assets.isu.pub/document-structure/230616123724-037fed6e5a94c4e43853143450546aa7/v1/b67a018a8919ba09c9dd845b7fdf15ea.jpeg',
-            name: 'Product 10',
-            price: '$10',
-        },
-        {
-            id: '2',
-            image: 'product2.jpg',
-            name: 'Product 2',
-            price: '$20',
-        },
-        {
-            id: '3',
-            image: 'product3.jpg',
-            name: 'Product 3',
-            price: '$30',
-        },
-        {
-            id: '4',
-            image: 'product4.jpg',
-            name: 'Product 4',
-            price: '$40',
-        },
-        {
-            id: '5',
-            image: 'product5.jpg',
-            name: 'Product 5',
-            price: '$50',
-        },
-        {
-            id: '15',
-            image: 'https://assets.isu.pub/document-structure/230616123724-037fed6e5a94c4e43853143450546aa7/v1/b67a018a8919ba09c9dd845b7fdf15ea.jpeg',
-            name: 'Product 15',
-            price: '$10',
-        },
-        {
-            id: '2',
-            image: 'product2.jpg',
-            name: 'Product 2',
-            price: '$20',
-        },
-        {
-            id: '3',
-            image: 'product3.jpg',
-            name: 'Product 3',
-            price: '$30',
-        },
-        {
-            id: '4',
-            image: 'product4.jpg',
-            name: 'Product 4',
-            price: '$40',
-        },
-        {
-            id: '5',
-            image: 'product5.jpg',
-            name: 'Product 5',
-            price: '$50',
-        },
-        {
-            id: '20',
-            image: 'https://assets.isu.pub/document-structure/230616123724-037fed6e5a94c4e43853143450546aa7/v1/b67a018a8919ba09c9dd845b7fdf15ea.jpeg',
-            name: 'Product 20',
-            price: '$10',
-        },
-        {
-            id: '2',
-            image: 'product2.jpg',
-            name: 'Product 2',
-            price: '$20',
-        },
-        {
-            id: '3',
-            image: 'product3.jpg',
-            name: 'Product 3',
-            price: '$30',
-        },
-        {
-            id: '4',
-            image: 'product4.jpg',
-            name: 'Product 4',
-            price: '$40',
-        },
-        {
-            id: '5',
-            image: 'product5.jpg',
-            name: 'Product 5',
-            price: '$50',
-        },
-    ];
-
+    const [products, setProducts] = useState<ProductResponse[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const handleNext = () => {
@@ -136,6 +18,21 @@ const ProductCarousel = () => {
     const handlePrev = () => {
         setCurrentIndex((prevIndex) => (prevIndex - 5 < 0 ? products.length - (products.length % 5 === 0 ? 5 : products.length % 5) : prevIndex - 5));
     };
+
+    useEffect(() => {
+       const fetchData = async () => {
+        const request: SearchProductRequest = {
+            search: '',
+            page: 1,
+            pageSize: 30,
+        };
+          const response = await Product.getAll(request);
+          if (response.data?.items !== undefined){
+              setProducts(response.data?.items);
+          }
+       };
+       fetchData();
+    }, []);
 
     return (
         <Box sx={{
@@ -156,6 +53,7 @@ const ProductCarousel = () => {
                     display: 'flex',
                     flexDirection: 'row',
                     gap: '20px',
+                    
                 }}>
                 {products.slice(currentIndex, currentIndex + 5).map((product) => (
                     <Box key={product.id}>
@@ -172,15 +70,16 @@ const ProductCarousel = () => {
                                 cursor: 'pointer',
                                 boxShadow: '4px 5px 8px rgba(0, 0, 0, 0.2)',
                             }}>
-                            <Box sx={{
+                            <Box 
+                              component='img'
+                              src={product.imagesPath[0] ? `https://localhost:7299${product.imagesPath[0]}` : productImage}
+                              sx={{
                                 width: '100%',
                                 height: '65%',
-                                backgroundImage: `url(${product.image})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                            }}>
-
-                            </Box>
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                              }}
+                            />
                             <Box sx={{
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                 height: '35%', 
@@ -189,14 +88,20 @@ const ProductCarousel = () => {
                                 padding: '10px'
                             }}>
                                 <Typography sx={{
-                                    fontWeight: 'bold'
+                                    fontWeight: 'bold',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
                                 }}>{product.name}</Typography>
+                                {product.quantity === 0 ?
                                 <Typography variant='body2' sx={{
                                     padding: '6px 0'
                                 }}>Немає  в наявності</Typography>
+                                : null
+                                }
                                 <Typography variant='h5' sx={{
                                     fontWeight: 'bold'
-                                }}>{product.price}</Typography>
+                                }}>{product.price}$</Typography>
                             </Box>
                         </Box>
                     </Box>

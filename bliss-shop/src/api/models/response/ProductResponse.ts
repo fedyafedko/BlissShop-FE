@@ -8,6 +8,7 @@ interface ProductResponse {
     tags: string[];
     quantity: number;
     imagesPath: string[];
+    totalRating: number;
 };
 
 export default ProductResponse;

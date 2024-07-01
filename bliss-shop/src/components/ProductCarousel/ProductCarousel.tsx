@@ -1,38 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Product from '../../api/Product';
 import ProductResponse from '../../api/models/response/ProductResponse';
 import productImage from '../../img/productImage.png';
-import SearchProductRequest from '../../api/models/request/Product/SearchProductRequest';
+import { useNavigate } from 'react-router-dom';
 
-const ProductCarousel = () => {
-    const [products, setProducts] = useState<ProductResponse[]>([]);
+const IMAGES_URL = process.env.REACT_APP_IMAGES_URL;
+
+const ProductCarousel = (props: {products: ProductResponse[]}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const navigate = useNavigate();
 
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 5 >= products.length ? 0 : prevIndex + 5));
+        setCurrentIndex((prevIndex) => (prevIndex + 5 >= props.products.length ? 0 : prevIndex + 5));
     };
 
     const handlePrev = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 5 < 0 ? products.length - (products.length % 5 === 0 ? 5 : products.length % 5) : prevIndex - 5));
+        setCurrentIndex((prevIndex) => (prevIndex - 5 < 0 ? props.products.length - (props.products.length % 5 === 0 ? 5 : props.products.length % 5) : prevIndex - 5));
     };
-
-    useEffect(() => {
-       const fetchData = async () => {
-        const request: SearchProductRequest = {
-            search: '',
-            page: 1,
-            pageSize: 30,
-        };
-          const response = await Product.getAll(request);
-          if (response.data?.items !== undefined){
-              setProducts(response.data?.items);
-          }
-       };
-       fetchData();
-    }, []);
 
     return (
         <Box sx={{
@@ -55,10 +41,10 @@ const ProductCarousel = () => {
                     gap: '20px',
                     
                 }}>
-                {products.slice(currentIndex, currentIndex + 5).map((product) => (
+                {props.products.slice(currentIndex, currentIndex + 5).map((product) => (
                     <Box key={product.id}>
                         <Box
-                            onClick={()=> console.log(product.id)}
+                            onClick={() => navigate(`/product/${product.id}`)}
                             sx={{
                                 width: '200px',
                                 height: '300px',
@@ -72,7 +58,7 @@ const ProductCarousel = () => {
                             }}>
                             <Box 
                               component='img'
-                              src={product.imagesPath[0] ? `https://localhost:7299${product.imagesPath[0]}` : productImage}
+                              src={product.imagesPath[0] ? `${IMAGES_URL + product.imagesPath[0]}` : productImage}
                               sx={{
                                 width: '100%',
                                 height: '65%',

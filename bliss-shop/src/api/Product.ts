@@ -24,6 +24,15 @@ const Product = {
 
         return response.error;
     },
+    getById: async (id: string): Promise<ApiResponse<ProductResponse>> => {
+        const response = await Api.get<ProductResponse>(`/product/get-product-by-id?id=${id}`);
+
+        if (response.success) {
+            return response;
+        }
+
+        return response.error;
+    }
 }
 
 export default Product;

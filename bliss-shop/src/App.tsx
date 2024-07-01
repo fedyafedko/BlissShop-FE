@@ -12,6 +12,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { SnackbarProvider } from 'notistack';
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
+import ProductPage from './pages/ProductPage/ProductPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -70,6 +71,7 @@ function App() {
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/sign-in" element={<SignInPage />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/reset-password/:email/:token" element={<ResetPasswordPage/>} />
             </Routes>
           </BrowserRouter>

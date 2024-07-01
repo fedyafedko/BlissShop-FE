@@ -81,7 +81,9 @@ const SearchBar: React.FC = () => {
           <List>
             {filteredProducts.map(product => (
               <React.Fragment key={product.id}>
-                <ListItem button sx={{
+                <ListItem button 
+                onClick={() => navigate(`/product/${product.id}`)}
+                sx={{
                   display: 'flex',
                   flexDirection: 'row',
                   gap: '10px',

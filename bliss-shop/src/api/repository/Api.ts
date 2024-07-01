@@ -5,7 +5,7 @@ import AuthSuccessResponse from "../models/response/AuthSuccessResponse";
 import RefreshTokenRequest from "../models/request/Auth/RefreshTokenRequest";
 import { useNavigate } from "react-router-dom";
 
-const API_URL: string | undefined = 'https://localhost:7299/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const axiosInstance = axios.create();;
 

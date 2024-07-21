@@ -83,11 +83,11 @@ const ProductCarousel = (props: {products: ProductResponse[]}) => {
                                 <Typography variant='body2' sx={{
                                     padding: '6px 0'
                                 }}>Немає  в наявності</Typography>
-                                : null
-                                }
+                                :
                                 <Typography variant='h5' sx={{
                                     fontWeight: 'bold'
                                 }}>{product.price}$</Typography>
+                            }
                             </Box>
                         </Box>
                     </Box>

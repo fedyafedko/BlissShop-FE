@@ -12,6 +12,8 @@ import Product from "../../api/Product";
 import { useParams } from "react-router-dom";
 import RatingProduct from "../../api/RatingProduct";
 import RatingResponse from "../../api/models/response/RatingResponse";
+import ProductCart from "../../api/ProductCart";
+import useNotification from "../../hooks/useNotification";
 
 const ProductPage = () => {
     const [products, setProducts] = useState<ProductResponse[]>([]);
@@ -19,6 +21,7 @@ const ProductPage = () => {
     const [rating, setRating] = useState<RatingResponse[]>([]);
     const productId = useParams();
     const [showAll, setShowAll] = useState(false);
+    const { notifyError, notifySuccess, Notification } = useNotification();
     const itemsToShow = showAll ? rating : rating.slice(0, 2);
 
     const handleShowMore = () => {
@@ -57,6 +60,16 @@ const ProductPage = () => {
         getAllProducts();
     }, []);
 
+    const handleAddToCart = async () => {
+        const response = await ProductCart.addToCart(productId.id as string, 1);
+        window.location.reload();
+        if (response.success) {
+            notifySuccess('Product added to cart');
+        } else {
+            notifyError(response.error?.message ?? 'Error adding product to cart');
+        }
+    };
+
     return (
         <Box>
             <Header />
@@ -83,8 +96,18 @@ const ProductPage = () => {
                     }}>
                         <Typography variant="h5" sx={{ fontWeight: 'bold' }}>{product?.name}</Typography>
                         <Typography variant="h6">{product?.price}$</Typography>
+                        <Box>
+                        <Typography variant="body1" sx={{ fontWeight: 'bold' }}>Description:</Typography>
                         <Typography variant="body1">{product?.description}</Typography>
-                        <Button variant="contained" color="secondary" sx={{ textTransform: 'none', borderRadius: '10px' }}>Add to Cart</Button>
+                        </Box>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleAddToCart}
+                            sx={{
+                                textTransform: 'none',
+                                width: '300px'
+                                }}>Add to Cart</Button>
                     </Box>
                 </Box>
                 <Box sx={{

@@ -7,23 +7,24 @@ import { useNavigate } from "react-router-dom";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const axiosInstance = axios.create();;
+const axiosInstance = axios.create();
 
 axiosInstance.interceptors.response.use(
     (response) => {
         return response;
     },
     async (error) => {
+        const navigate = useNavigate();
         if (error.response.status === 401) {
             try {
-                const navigate = useNavigate();
                 const request = {
                     accessToken: localStorage.getItem('accessToken') ?? '',
                     refreshToken: localStorage.getItem('refreshToken') ?? ''
                 };
+
                 const response = await Api.post<RefreshTokenRequest, AuthSuccessResponse>('/auth/refresh-token', request as RefreshTokenRequest);
 
-                if (response.statusCode === 400) {
+                if (!response.success) {
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
                     navigate('/sign-in');

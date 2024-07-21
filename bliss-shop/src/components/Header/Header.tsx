@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import SearchBar from "../SearchBar/SearchBar";
 import AccountMenu from "../AccountMenu/AccountMenu";
 import { useNavigate } from "react-router-dom";
-import ProductCart from "../ProductCart/ProductCart";
+import ProductCartMenu from "../ProductCartMenu/ProductCartMenu";
 
 const Header = () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -64,7 +64,7 @@ const Header = () => {
                         display: 'flex',
                         gap: '110px',
                     }}>
-                        <ProductCart />
+                        <ProductCartMenu />
                         <AccountMenu />
                     </Box>
                     :

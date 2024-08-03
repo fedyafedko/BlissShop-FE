@@ -40,12 +40,12 @@ const SearchBar: React.FC = () => {
       pageSize: 5,
     };
 
-    var response = await Product.getAll(request);
+    var response = await Product.getAll(request, '');
     setFilteredProducts(response.data?.items || []);
   };
 
   const handleClick = () => {
-    navigate(`/products/${searchTerm}`);
+    navigate(`/search/${searchTerm}`);
   };
 
   const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {

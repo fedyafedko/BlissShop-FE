@@ -35,7 +35,7 @@ const ProductPage = () => {
                 page: 1,
                 pageSize: 30,
             };
-            const response = await Product.getAll(request);
+            const response = await Product.getAll(request, '');
             if (response.data?.items !== undefined) {
                 setProducts(response.data?.items);
             }

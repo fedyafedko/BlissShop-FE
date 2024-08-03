@@ -9,12 +9,14 @@ import ProductResponse from "../../api/models/response/ProductResponse";
 import SearchProductRequest from "../../api/models/request/Product/SearchProductRequest";
 import CategoryResponse from "../../api/models/response/CategoryResponse";
 import Category from "../../api/Category";
+import { useNavigate } from "react-router-dom";
 
 const IMAGES_URL = process.env.REACT_APP_IMAGES_URL;
 
 const HomePage = () => {
     const [products, setProducts] = useState<ProductResponse[]>([]);
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,7 +25,7 @@ const HomePage = () => {
              page: 1,
              pageSize: 30,
          };
-           const response = await Product.getAll(request);
+           const response = await Product.getAll(request, '');
            if (response.data?.items !== undefined){
                setProducts(response.data?.items);
            }
@@ -90,7 +92,7 @@ const HomePage = () => {
                         {categories.map((category) => (
                             <Grid item xs={2} sm={4} md={1}>
                                 <Box
-                                    onClick={() => console.log(category.id)}
+                                    onClick={() => navigate(`/category/${category.name}/${category.id}`)}
                                     sx={{
                                         display: 'flex',
                                         flexDirection: 'column',

@@ -13,6 +13,8 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { SnackbarProvider } from 'notistack';
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import ProductPage from './pages/ProductPage/ProductPage';
+import SearchPage from './pages/SearchPage/SearchPage';
+import CategoryPage from './pages/CategoryPage/CategoryPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -73,6 +75,9 @@ function App() {
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/reset-password/:email/:token" element={<ResetPasswordPage/>} />
+              <Route path="/search/:searchTerm" element={<SearchPage/>}/>
+              <Route path='/category/:categoryName/:categoryId' element={<CategoryPage/>}/>
+              <Route path="*" element={<div>Not Found Page</div>} />
             </Routes>
           </BrowserRouter>
           <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>

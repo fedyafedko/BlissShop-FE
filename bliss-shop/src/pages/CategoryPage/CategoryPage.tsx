@@ -96,6 +96,8 @@ const CategoryPage = () => {
                 <Box sx={{
                     display: 'flex',
                     flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     gap: '50px',
                 }}>
                     {productCategories?.items.length === 0 ?
@@ -154,7 +156,7 @@ const CategoryPage = () => {
                         </Box>
                     }
                     <Box sx={{
-                        width: '100%',
+                        width: '1200px',
                         display: 'flex',
                         flexDirection: 'column',
                         paddingBottom: '30px',

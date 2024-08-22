@@ -41,7 +41,10 @@ const AccountMenu = () => {
         gap: '30px'
       }}>
         <Box
-          onClick={() => navigate('/profile/1')}
+          onClick={() => {
+            localStorage.setItem('profileTab', '0')
+            navigate('/profile')
+          }}
           sx={{
             display: 'flex',
             flexDirection: 'row',
@@ -83,7 +86,11 @@ const AccountMenu = () => {
               fontSize: '20px',
               color: 'secondary.dark'
             }}
-            startIcon={<RestaurantMenuIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            startIcon={<RestaurantMenuIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}
+            onClick={() => {
+              localStorage.setItem('profileTab', '2')
+              navigate('/profile');
+            }}>
             My Orders
           </Button>
           <Button
@@ -93,7 +100,11 @@ const AccountMenu = () => {
               fontSize: '20px',
               color: 'secondary.dark'
             }}
-            startIcon={<SubscriptionsIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            startIcon={<SubscriptionsIcon sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}
+            onClick={() => {
+              localStorage.setItem('profileTab', '3')
+              navigate('/profile');
+            }}>
             My Subscriptions
           </Button>
         </Box>
@@ -106,9 +117,13 @@ const AccountMenu = () => {
             sx={{
               textTransform: 'none',
               fontSize: '20px',
-              color: 'secondary.dark'
+              color: 'secondary.dark',
             }}
-            startIcon={<Settings sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}>
+            startIcon={<Settings sx={{ marginRight: '10px', width: '30px', height: '30px' }} />}
+            onClick={() => {
+              localStorage.setItem('profileTab', '1')
+              navigate('/profile');
+            }}>
 
             Settings
           </Button>

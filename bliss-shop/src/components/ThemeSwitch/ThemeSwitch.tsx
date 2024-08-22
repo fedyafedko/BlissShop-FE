@@ -53,9 +53,9 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
-const ThemeSwitch = () => {
+const ThemeSwitch = (props: {isChecked: boolean}) => {
     return (
-        <StyledSwitch defaultChecked />
+        <StyledSwitch checked={props.isChecked} />
     );
 };
 

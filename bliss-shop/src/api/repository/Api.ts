@@ -14,7 +14,6 @@ axiosInstance.interceptors.response.use(
         return response;
     },
     async (error) => {
-        const navigate = useNavigate();
         if (error.response.status === 401) {
             try {
                 const request = {
@@ -27,7 +26,7 @@ axiosInstance.interceptors.response.use(
                 if (!response.success) {
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
-                    navigate('/sign-in');
+                    window.location.href = '/sign-in';
                 }
 
                 if (response.success) {

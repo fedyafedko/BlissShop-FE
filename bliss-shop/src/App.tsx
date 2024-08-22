@@ -1,20 +1,20 @@
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { CssBaseline, IconButton } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import HomePage from './pages/HomePage/HomePage';
-import { useState } from 'react';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useEffect, useState } from 'react';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import { SnackbarProvider } from 'notistack';
 import ResetPasswordPage from './pages/ResetPasswordPage/ResetPasswordPage';
 import ProductPage from './pages/ProductPage/ProductPage';
 import SearchPage from './pages/SearchPage/SearchPage';
 import CategoryPage from './pages/CategoryPage/CategoryPage';
+import Setting from './api/Setting';
+import SettingResponse from './api/models/response/SettingResponse';
 
 const darkTheme = createTheme({
   palette: {
@@ -58,10 +58,46 @@ const lightTheme = createTheme({
 
 function App() {
   const [themeMode, setThemeMode] = useState('light');
+  const [settings, setSettings] = useState<SettingResponse>();
 
-  const toggleTheme = () => {
-    setThemeMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+  useEffect(() => {
+    const getSettings = async () => {
+    const response = await Setting.getForUser();
+    if (response.success) {
+      setSettings(response.data);
+      setThemeMode(response.data?.isDarkMode ? 'dark' : 'light');
+    }
   };
+  getSettings();
+  }, []);
+
+  const handleUpdateSetting = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+
+    if (name === 'isDarkMode') {
+      setThemeMode(checked ? 'dark' : 'light');
+    }
+
+    setSettings((prevSettings) => {
+      if (!prevSettings) return undefined;
+  
+      return {
+        ...prevSettings,
+        [name]: checked,
+      };
+    });
+  };
+
+  useEffect(() => {
+    const updateSetting = async () => {
+      const response = await Setting.update(settings as SettingResponse);
+      if (response.success) {
+        console.log('Updated setting');
+      }
+    }
+    updateSetting();
+  }, [settings]);
+
   return (
     <SnackbarProvider maxSnack={3}>
       <ThemeProvider theme={themeMode === 'light' ? lightTheme : darkTheme}>
@@ -72,7 +108,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/sign-up" element={<SignUpPage />} />
               <Route path="/sign-in" element={<SignInPage />} />
-              <Route path="/profile/:id" element={<ProfilePage />} />
+              <Route path="/profile" element={<ProfilePage handleUpdateSetting={handleUpdateSetting} settings={settings}/>} />
               <Route path="/product/:id" element={<ProductPage />} />
               <Route path="/reset-password/:email/:token" element={<ResetPasswordPage/>} />
               <Route path="/search/:searchTerm" element={<SearchPage/>}/>
@@ -80,9 +116,9 @@ function App() {
               <Route path="*" element={<div>Not Found Page</div>} />
             </Routes>
           </BrowserRouter>
-          <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>
+          {/* <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>
             {themeMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
-          </IconButton>
+          </IconButton> */}
         </GoogleOAuthProvider>
       </ThemeProvider>
     </SnackbarProvider>

@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ProfileTab from './ProfileTab/ProfileTab';
 import SettingsTab from './SettingsTab/SettingsTab';
+import { ProfilePageProps } from '../../pages/ProfilePage/ProfilePage';
+import OrderTab from './OrderTab/OrderTab';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,16 +41,17 @@ function a11yProps(index: number) {
   };
 }
 
-const ProfileTabs = () => {
-  const [value, setValue] = React.useState(0);
+const ProfileTabs : React.FC<ProfilePageProps> = ({ handleUpdateSetting, settings })  => {
+  const [value, setValue] = React.useState<number>(parseInt(localStorage.getItem('profileTab') ?? '0'));
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    localStorage.setItem('profileTab', newValue.toString());
     setValue(newValue);
   };
 
   return (
     <Box
-      sx={{ flexGrow: 1, display: 'flex', width: 1000}}
+      sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row', gap: '11%' }}
     >
       <Tabs
         orientation="vertical"
@@ -58,7 +61,9 @@ const ProfileTabs = () => {
         indicatorColor="secondary"
         aria-label="Vertical tabs example"
         sx={{
-            width: 250,
+            display: 'flex',
+            justifySelf: 'flex-start',
+            minWidth: '14%',
             borderRight: 1,
             borderColor: 'divider',
           }}
@@ -69,18 +74,15 @@ const ProfileTabs = () => {
         <Tab label="My Subscriptions" {...a11yProps(3)} sx={{ textTransform: 'none', fontSize: '20px', alignItems: 'flex-start'}}/>
         <Tab label="My Shops" {...a11yProps(4)} sx={{ textTransform: 'none', fontSize: '20px', alignItems: 'flex-start'}}/>
       </Tabs>
-      <Box sx={{
-        width: '100%',
-        height: '100%',
-      }}>
+      <Box>
         <TabPanel value={value} index={0}>
           <ProfileTab />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <SettingsTab />
+          <SettingsTab handleUpdateSetting={handleUpdateSetting} settings={settings}/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          <OrderTab />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Item Four

@@ -15,6 +15,7 @@ import SearchPage from './pages/SearchPage/SearchPage';
 import CategoryPage from './pages/CategoryPage/CategoryPage';
 import Setting from './api/Setting';
 import SettingResponse from './api/models/response/SettingResponse';
+import OrderPage from './pages/OrderPage/OrderPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -113,12 +114,10 @@ function App() {
               <Route path="/reset-password/:email/:token" element={<ResetPasswordPage/>} />
               <Route path="/search/:searchTerm" element={<SearchPage/>}/>
               <Route path='/category/:categoryName/:categoryId' element={<CategoryPage/>}/>
+              <Route path="/profile/order/:orderId" element={<OrderPage/>}/>
               <Route path="*" element={<div>Not Found Page</div>} />
             </Routes>
           </BrowserRouter>
-          {/* <IconButton onClick={toggleTheme} sx={{ position: 'fixed', bottom: 16, right: 16 }}>
-            {themeMode === 'light' ? <Brightness4Icon /> : <Brightness7Icon />}
-          </IconButton> */}
         </GoogleOAuthProvider>
       </ThemeProvider>
     </SnackbarProvider>

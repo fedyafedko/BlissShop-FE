@@ -10,7 +10,6 @@ import OrderResponse from "../../api/models/response/OrderResponse";
 import { useEffect, useState } from "react";
 import Order from "../../api/Order";
 import { useParams } from "react-router-dom";
-import { Handshake } from "@mui/icons-material";
 
 const IMAGES_URL = process.env.REACT_APP_IMAGES_URL;
 
@@ -138,7 +137,8 @@ const OrderPage = () => {
                             ":hover": {
                                 backgroundColor: '#FFD600',
                             }
-                        }}>
+                        }}
+                        onClick={handleRefund}>
                             Refund
                         </Button>
                     </Box>
@@ -152,7 +152,7 @@ const OrderPage = () => {
                         <Box sx={{
                             width: '30%',
                             height: '90%',
-                            backgroundImage: `url(${order!.product.imagesPath.length > 0 ? `${IMAGES_URL + order!.product.imagesPath[0]}` : productImage})`,
+                            backgroundImage: `url(${order?.product.imagesPath.length! > 0 ? `${IMAGES_URL + order?.product.imagesPath[0]!}` : productImage})`,
                             objectFit: 'cover',
                             backgroundSize: 'cover',
                             backgroundPosition: 'center'

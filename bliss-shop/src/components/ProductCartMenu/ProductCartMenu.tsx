@@ -6,6 +6,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import ProductCart from "../../api/ProductCart";
 import ProductCartResponse from "../../api/models/response/ProductCartResponses/ProductCartResponse";
 import productImage from '../../img/productImage.png';
+import { useNavigate } from "react-router-dom";
 
 const IMAGES_URL = process.env.REACT_APP_IMAGES_URL;
 
@@ -14,6 +15,7 @@ const ProductCartMenu = () => {
     const [state, setState] = React.useState({
         right: false,
     });
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -160,6 +162,7 @@ const ProductCartMenu = () => {
                         <Button
                             variant="contained"
                             color="secondary"
+                            onClick={() => {navigate("/checkout")}}
                             sx={{
                                 width: '90%',
                                 height: '50px',

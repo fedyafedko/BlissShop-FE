@@ -16,6 +16,7 @@ import CategoryPage from './pages/CategoryPage/CategoryPage';
 import Setting from './api/Setting';
 import SettingResponse from './api/models/response/SettingResponse';
 import OrderPage from './pages/OrderPage/OrderPage';
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
 
 const darkTheme = createTheme({
   palette: {
@@ -115,6 +116,7 @@ function App() {
               <Route path="/search/:searchTerm" element={<SearchPage/>}/>
               <Route path='/category/:categoryName/:categoryId' element={<CategoryPage/>}/>
               <Route path="/profile/order/:orderId" element={<OrderPage/>}/>
+              <Route path="/checkout" element={<CheckoutPage/>}/>
               <Route path="*" element={<div>Not Found Page</div>} />
             </Routes>
           </BrowserRouter>

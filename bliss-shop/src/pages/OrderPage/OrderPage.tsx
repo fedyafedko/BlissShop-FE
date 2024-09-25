@@ -10,6 +10,7 @@ import OrderResponse from "../../api/models/response/OrderResponse";
 import { useEffect, useState } from "react";
 import Order from "../../api/Order";
 import { useParams } from "react-router-dom";
+import useNotification from "../../hooks/useNotification";
 
 const IMAGES_URL = process.env.REACT_APP_IMAGES_URL;
 
@@ -40,6 +41,7 @@ const OrderPage = () => {
     const params = useParams();
     const [order, setOrder] = useState<OrderResponse>();
     const [activeStep, setActiveStep] = useState(0);
+    const { notifyError, notifySuccess, Notification } = useNotification();
 
     const steps = [
         { label: 'Pending', icon: <AccessTimeIcon /> },
@@ -47,7 +49,6 @@ const OrderPage = () => {
         { label: 'Completed', icon: <DoneIcon /> },
     ];
 
-    // Mapping order statuses to step indices
     const statusToStepIndex = {
         "Pending": 0,
         "Processing": 1,
@@ -76,6 +77,10 @@ const OrderPage = () => {
         const response = await Order.refund(params.orderId ?? '');
         if (response.success) {
             setActiveStep(4);
+            notifySuccess("Refund successful");
+        }
+        else {
+            notifyError("Failed to refund");
         }
     }
 
